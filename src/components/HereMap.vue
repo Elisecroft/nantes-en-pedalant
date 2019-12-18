@@ -1,6 +1,6 @@
 <template>
   <div class="here-map">
-    <div ref="map" v-bind:style="{ width: width, height: height }"></div>
+    <div ref="map" style="width: 100w; height: 100vh"></div>
   </div>
 </template>
 
@@ -10,32 +10,50 @@
     data() {
       return {
         map: {},
-        platform: {}
+        platform: {},
+        routingService: {}
       }
     },
     props: {
-      appId: String,
-      appCode: String,
+      apiKey: String,
       lat: String,
       lng: String,
-      width: String,
-      height: String
+      zoom: String
     },
     created() {
       this.platform = new H.service.Platform({
-        "app_id": this.appId,
-        "app_code": this.appCode
+        "apiKey": this.apiKey
       });
+      this.routingService = this.platform.getRoutingService();
     },
     mounted() {
+      let defaultLayers = this.platform.createDefaultLayers();
       this.map = new H.Map(
         this.$refs.map,
-        this.platform.createDefaultLayers().normal.map,
+        defaultLayers.vector.normal.map,
         {
-          zoom: 13,
-          center: { lng: this.lng, lat: this.lat }
+          zoom: this.zoom,
+          center: { lat: this.lat, lng: this.lng }
         }
       );
+    },
+    methods: { 
+      drawRoute(start, finish) {
+        this.routingService.calculatedRoute(
+          {
+            "mode": "fastest;car;traffic:enable",
+            "waypoint0": `${start.lat},${start.lng}`,
+            "waypoint1": `${finish.lat},${finish.lng}`,
+            "representation": "display"
+          },
+          data => {
+            console.log(data);
+          },
+          error => {
+            console.error(error);
+          }
+        )
+      }
     }
   }
 </script>
