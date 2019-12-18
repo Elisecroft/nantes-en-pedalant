@@ -1,4 +1,4 @@
-# nantes-en-pedalant
+# Nantes en pédalant
 
 ## Project setup
 ```
