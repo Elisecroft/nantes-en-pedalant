@@ -1,8 +1,8 @@
 <template>
     <div id="app">
         <HereMap
-            appId="DiGvwlJhXUFwnnkS1DL0"
-            appCode="1sKutluykr4HfVFdV-BKJZ77Sz1SSWTNW3-WF6Lir18"
+            appId={ config.appId }
+            appCode={ config.appCode }
             lat="47.2205"
             lng="-1.5600"
             width="100%"
@@ -11,7 +11,10 @@
 </template>
 
 <script>
+    const config = require('./components/secret')
+
     import HereMap from "./components/HereMap.vue"
+    console.log(config)
 
     export default {
         name: 'app',
