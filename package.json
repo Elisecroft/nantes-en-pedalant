@@ -12,6 +12,7 @@
     "core-js": "^3.4.3",
     "leaflet": "^1.6.0",
     "vue": "^2.6.10",
+    "vue-browser-geolocation": "^1.8.0",
     "vue2-leaflet": "^2.4.1"
   },
   "devDependencies": {

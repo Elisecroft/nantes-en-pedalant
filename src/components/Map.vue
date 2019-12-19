@@ -15,6 +15,9 @@
       <LMarker v-if="filtres[1].display && bicloo.fields.available_bikes > 0" v-for="bicloo in bicloos":lat-lng="bicloo.fields.position" :icon="biclooIcon">
         <LPopup :content="'Vélos disponibles : ' + bicloo.fields.available_bikes.toString()"></LPopup>
       </LMarker>
+      <LMarker v-if="location != null" :lat-lng="location" :icon="hereIcon">
+        <LPopup :content="'Vous êtes ici !'"></LPopup>
+      </LMarker>
     </LMap>
     <button v-on:click="changeFiltre('pompes')">Pompes</button>
     <button v-on:click="changeFiltre('bicloos')">Bicloos dispo</button>
@@ -48,14 +51,9 @@ export default {
         "https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZWxpc2Vjcm9mdCIsImEiOiJjazRjY2FxamowNDN6M21vMXBpaGV1bXNhIn0.ZlAf35jELFpyEr3pR0Lx1A",
       zoom: 13,
       center: [47.213039, -1.549931], //GMap
-      markers: [{
-        latlng: [47.216303, -1.550231],
-        content: "hello"
-      },
-      {
-        latlng: [46.216303, -1.350231],
-        content: "hola"
-      }],
+      location: null,
+      gettingLocation: false,
+      errorStr:null,
       pompesIcon: L.icon({
         iconUrl: 'https://image.flaticon.com/icons/png/512/1493/1493719.png',
         iconSize:     [35, 45],
@@ -72,6 +70,14 @@ export default {
         shadowAnchor: [4, 62],
         popupAnchor:  [-3, -76]
       }),
+      hereIcon: L.icon({
+        iconUrl: 'https://image.flaticon.com/icons/png/512/1493/1493766.png',
+        iconSize:     [55, 45],
+        shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76]
+      }),
       pompes: null,
       bicloos: null,
       filtres: [{
@@ -82,6 +88,23 @@ export default {
         display: true,
       }]
     };
+  },
+  created() {
+    //do we support geolocation
+    if(!("geolocation" in navigator)) {
+      this.errorStr = 'Geolocation is not available.';
+      return;
+    }
+
+    this.gettingLocation = true;
+    // get position
+    navigator.geolocation.getCurrentPosition(pos => {
+      this.gettingLocation = false;
+      this.location = [pos.coords.latitude, pos.coords.longitude];
+    }, err => {
+      this.gettingLocation = false;
+      this.errorStr = err.message;
+    })
   },
   mounted() {
     // const urlProxy = "https://cors-anywhere.herokuapp.com/";
@@ -124,6 +147,7 @@ export default {
         };
       }
       this.filtres[filtre].display = !this.filtres[filtre].display;
+      console.log(this.location)
     },
   },
   name: "Map",
