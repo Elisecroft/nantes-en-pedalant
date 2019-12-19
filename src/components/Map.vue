@@ -9,11 +9,15 @@
       @update:bounds="boundsUpdated"
     >
       <LTileLayer :url="url"></LTileLayer>
-      <LMarker v-if="filtres[0].display" v-for="pompe in pompes":lat-lng="pompe.geometry.coordinates">
+      <LMarker v-if="filtres[0].display" v-for="pompe in pompes":lat-lng="pompe.fields.location">
         <LPopup :content="pompe.fields.descriptif"></LPopup>
+      </LMarker>
+      <LMarker v-if="filtres[1].display" v-for="bicloo in bicloos":lat-lng="bicloo.fields.position">
+        <LPopup :content="'Vélos disponibles : ' + bicloo.fields.available_bikes.toString()"></LPopup>
       </LMarker>
     </LMap>
     <button v-on:click="changeFiltre('pompes')">Pompes</button>
+    <button v-on:click="changeFiltre('bicloos')">Bicloos dispo</button>
   </div>
 </template>
 
@@ -52,25 +56,39 @@ export default {
         latlng: [46.216303, -1.350231],
         content: "hola"
       }],
-      pompes: null ,
+      pompes: null,
+      bicloos: null,
       filtres: [{
-        pompes: true,
+        ctg: "pompes",
+        display: true,
+      }, {
+        ctg: "bicloos",
         display: true,
       }]
     };
   },
   mounted() {
     const urlProxy = "https://cors-anywhere.herokuapp.com/";
-    const dataPompes = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_gonfleurs-libre-service-nantes-metropole&rows=32";
-    axios
-      .get(dataPompes)
-      .then(res => {
-        this.pompes = res.data.records;
-        for (let i = 0; i < this.pompes.length; i++) {
-          let newCoord = this.pompes[i].geometry.coordinates.reverse();
-          this.pompes[i].geometry.coordinates = newCoord;
-        }
-      })
+
+    const getActualPompes = () => {
+      const dataPompes = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_gonfleurs-libre-service-nantes-metropole&rows=32";
+      axios
+        .get(dataPompes)
+        .then(res => {
+          this.pompes = res.data.records;
+        })
+    }
+
+    const getActualBikes = () => {
+        const dataBicloo = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_stations-velos-libre-service-nantes-metropole-disponibilites&rows=123";
+        axios
+          .get(dataBicloo)
+          .then(res => {
+            this.bicloos = res.data.records;
+          })
+    }
+    getActualPompes();
+    getActualBikes();
   },
   methods: {
     zoomUpdated(zoom) {
@@ -83,14 +101,14 @@ export default {
       this.bounds = bounds;
     },
     changeFiltre(obj) {
-      let filtre = null
+      let filtre = 0;
       for (let i = 0; i < this.filtres.length; i++) {
-        if (this.filtres[i].name = obj) {
+        if (this.filtres[i].ctg == obj) {
           filtre = i;
         };
       }
       this.filtres[filtre].display = !this.filtres[filtre].display;
-    }
+    },
   },
   name: "Map",
   components: {
