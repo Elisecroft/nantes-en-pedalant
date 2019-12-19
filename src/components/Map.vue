@@ -9,10 +9,10 @@
       @update:bounds="boundsUpdated"
     >
       <LTileLayer :url="url"></LTileLayer>
-      <LMarker v-if="filtres[0].display" v-for="pompe in pompes":lat-lng="pompe.fields.location">
+      <LMarker v-if="filtres[0].display" v-for="pompe in pompes":lat-lng="pompe.fields.location" :icon="pompesIcon">
         <LPopup :content="pompe.fields.descriptif"></LPopup>
       </LMarker>
-      <LMarker v-if="filtres[1].display" v-for="bicloo in bicloos":lat-lng="bicloo.fields.position">
+      <LMarker v-if="filtres[1].display && bicloo.fields.available_bikes > 0" v-for="bicloo in bicloos":lat-lng="bicloo.fields.position" :icon="biclooIcon">
         <LPopup :content="'Vélos disponibles : ' + bicloo.fields.available_bikes.toString()"></LPopup>
       </LMarker>
     </LMap>
@@ -56,6 +56,22 @@ export default {
         latlng: [46.216303, -1.350231],
         content: "hola"
       }],
+      pompesIcon: L.icon({
+        iconUrl: 'https://image.flaticon.com/icons/png/512/1493/1493719.png',
+        iconSize:     [35, 45],
+        shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76]
+      }),
+      biclooIcon: L.icon({
+        iconUrl: 'https://image.flaticon.com/icons/png/512/1493/1493724.png',
+        iconSize:     [45, 40],
+        shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76]
+      }),
       pompes: null,
       bicloos: null,
       filtres: [{
@@ -68,7 +84,7 @@ export default {
     };
   },
   mounted() {
-    const urlProxy = "https://cors-anywhere.herokuapp.com/";
+    // const urlProxy = "https://cors-anywhere.herokuapp.com/";
 
     const getActualPompes = () => {
       const dataPompes = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_gonfleurs-libre-service-nantes-metropole&rows=32";
