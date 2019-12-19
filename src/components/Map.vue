@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100vh; width: 100vw">
     <LMap
-      style="height: 100%; width: 100%"
+      style="height: 95%; width: 100%"
       :zoom="zoom"
       :center="center"
       @update:zoom="zoomUpdated"
@@ -9,10 +9,11 @@
       @update:bounds="boundsUpdated"
     >
       <LTileLayer :url="url"></LTileLayer>
-      <LMarker v-for="pompe in pompes":lat-lng="pompe.geometry.coordinates">
+      <LMarker v-if="filtres[0].display" v-for="pompe in pompes":lat-lng="pompe.geometry.coordinates">
         <LPopup :content="pompe.fields.descriptif"></LPopup>
       </LMarker>
     </LMap>
+    <button v-on:click="changeFiltre('pompes')">Pompes</button>
   </div>
 </template>
 
@@ -51,7 +52,11 @@ export default {
         latlng: [46.216303, -1.350231],
         content: "hola"
       }],
-      pompes: null 
+      pompes: null ,
+      filtres: [{
+        pompes: true,
+        display: true,
+      }]
     };
   },
   mounted() {
@@ -63,7 +68,6 @@ export default {
         this.pompes = res.data.records;
         for (let i = 0; i < this.pompes.length; i++) {
           let newCoord = this.pompes[i].geometry.coordinates.reverse();
-          console.log(newCoord)
           this.pompes[i].geometry.coordinates = newCoord;
         }
       })
@@ -77,6 +81,15 @@ export default {
     },
     boundsUpdated(bounds) {
       this.bounds = bounds;
+    },
+    changeFiltre(obj) {
+      let filtre = null
+      for (let i = 0; i < this.filtres.length; i++) {
+        if (this.filtres[i].name = obj) {
+          filtre = i;
+        };
+      }
+      this.filtres[filtre].display = !this.filtres[filtre].display;
     }
   },
   name: "Map",
