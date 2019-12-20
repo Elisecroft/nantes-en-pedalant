@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100vh; width: 100vw">
     <LMap
-      style="height: 94%; width: 100%"
+      style="height: 93%; width: 100%"
       :zoom="zoom"
       :center="center"
       @update:zoom="zoomUpdated"
@@ -198,17 +198,25 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: #FFB482;
-    height: 6%;
+    background-color: #222;
+    height: 7%;
     width: 100vw;
   }
 
   h1 {
     font-weight: 600;
-    color: #4D5DE8;
+    color: rgb(253, 154, 2);
+    font-family: "Arial";
+
   }
 
   button {
-    height: 40px;
+    padding:6px 3px 6px 3px;
+    font:bold 14px Arial;
+    background:rgb(253, 154, 2);
+    color:#fff;
+    border-radius:12px;
+    width:100px;
+    border:none;
   }
 </style>
