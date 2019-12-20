@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100vh; width: 100vw">
     <LMap
-      style="height: 95%; width: 100%"
+      style="height: 94%; width: 100%"
       :zoom="zoom"
       :center="center"
       @update:zoom="zoomUpdated"
@@ -19,8 +19,13 @@
         <LPopup :content="'Vous êtes ici !'"></LPopup>
       </LMarker>
     </LMap>
-    <button v-on:click="changeFiltre('pompes')">Pompes</button>
-    <button v-on:click="changeFiltre('bicloos')">Bicloos dispo</button>
+    <nav>
+      <h1>Nantes en pédalant</h1>
+      <button v-if="filtres[0].display" v-on:click="changeFiltre('pompes')">Pompes ✅</button>
+      <button v-else v-on:click="changeFiltre('pompes')">Pompes ❎</button>
+      <button v-if="filtres[1].display" v-on:click="changeFiltre('bicloos')">Bicloos dispo ✅</button>
+      <button v-else v-on:click="changeFiltre('bicloos')">Bicloos dispo ❎</button>
+    </nav>
   </div>
 </template>
 
@@ -164,4 +169,21 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #FFB482;
+    height: 6%;
+    width: 100vw;
+  }
+
+  h1 {
+    font-weight: 600;
+    color: #4D5DE8;
+  }
+
+  button {
+    height: 40px;
+  }
 </style>
