@@ -1,16 +1,19 @@
 <template>
   <div id="app">
+    <SideNavbar />
     <Map />
   </div>
 </template>
 
 <script>
 import Map from './components/Map.vue'
+import SideNavbar from './components/SideNavbar.vue';
 
 export default {
   name: 'app',
   components: {
     Map,
+    SideNavbar,
   },
 }
 </script>
