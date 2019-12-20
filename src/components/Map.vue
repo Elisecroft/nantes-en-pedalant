@@ -129,8 +129,6 @@ export default {
     })
   },
   mounted() {
-    // const urlProxy = "https://cors-anywhere.herokuapp.com/";
-
     const getActualPompes = () => {
       const dataPompes = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_gonfleurs-libre-service-nantes-metropole&rows=32";
       axios
