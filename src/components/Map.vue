@@ -15,16 +15,21 @@
       <LMarker v-if="filtres[1].display && bicloo.fields.available_bikes > 0" v-for="bicloo in bicloos":lat-lng="bicloo.fields.position" :icon="biclooIcon">
         <LPopup :content="'Vélos disponibles : ' + bicloo.fields.available_bikes.toString()"></LPopup>
       </LMarker>
+      <LMarker v-if="filtres[2].display" v-for="abri in abris" :lat-lng="abri.fields.location" :icon="abrisIcon">
+        <LPopup :content="abri.fields.descriptif"></LPopup>
+      </LMarker>
       <LMarker v-if="location != null" :lat-lng="location" :icon="hereIcon">
         <LPopup :content="'Vous êtes ici !'"></LPopup>
       </LMarker>
     </LMap>
     <nav>
       <h1>Nantes en pédalant</h1>
-      <button v-if="filtres[0].display" v-on:click="changeFiltre('pompes')">Pompes ✅</button>
-      <button v-else v-on:click="changeFiltre('pompes')">Pompes ❎</button>
       <button v-if="filtres[1].display" v-on:click="changeFiltre('bicloos')">Bicloos dispo ✅</button>
       <button v-else v-on:click="changeFiltre('bicloos')">Bicloos dispo ❎</button>
+      <button v-if="filtres[2].display" v-on:click="changeFiltre('abris')">Abris à vélo ✅</button>
+      <button v-else v-on:click="changeFiltre('abris')">Abris à vélo ❎</button>
+      <button v-if="filtres[0].display" v-on:click="changeFiltre('pompes')">Pompes ✅</button>
+      <button v-else v-on:click="changeFiltre('pompes')">Pompes ❎</button>
     </nav>
   </div>
 </template>
@@ -75,6 +80,14 @@ export default {
         shadowAnchor: [4, 62],
         popupAnchor:  [-3, -76]
       }),
+      abrisIcon: L.icon({
+        iconUrl: 'https://image.flaticon.com/icons/png/512/1493/1493743.png',
+        iconSize:     [35, 35],
+        shadowSize:   [50, 64],
+        iconAnchor:   [18, 18],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76]
+      }),
       hereIcon: L.icon({
         iconUrl: 'https://image.flaticon.com/icons/png/512/1493/1493766.png',
         iconSize:     [55, 45],
@@ -85,12 +98,15 @@ export default {
       }),
       pompes: null,
       bicloos: null,
-      velocistes: null,
+      abris: null,
       filtres: [{
         ctg: "pompes",
         display: true,
       }, {
         ctg: "bicloos",
+        display: true,
+      }, {
+        ctg: "abris",
         display: true,
       }]
     };
@@ -132,8 +148,19 @@ export default {
           this.bicloos = res.data.records;
         })
     }
+
+    const getActualAbris = () => {
+      const dataAbris = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_abris-velos-nantes-metropole&rows=193";
+      axios
+        .get(dataAbris)
+        .then(res => {
+          this.abris = res.data.records;
+        })
+    }
+
     getActualPompes();
     getActualBikes();
+    getActualAbris();
   },
   methods: {
     zoomUpdated(zoom) {
