@@ -211,12 +211,12 @@ export default {
   }
 
   button {
-    padding:6px 3px 6px 3px;
+    padding: 6px 4px 6px 4px;
     font:bold 14px Arial;
     background:rgb(253, 154, 2);
     color:#222;
     border-radius:12px;
-    width:100px;
+    width:150px;
     border:none;
   }
 </style>
