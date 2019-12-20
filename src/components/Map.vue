@@ -70,7 +70,7 @@ export default {
         shadowSize:   [50, 64],
         iconAnchor:   [18, 22],
         shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76]
+        popupAnchor:  [0, -25]
       }),
       biclooIcon: L.icon({
         iconUrl: 'https://image.flaticon.com/icons/png/512/1493/1493724.png',
@@ -78,7 +78,7 @@ export default {
         shadowSize:   [50, 64],
         iconAnchor:   [22, 20],
         shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76]
+        popupAnchor:  [0, -25]
       }),
       abrisIcon: L.icon({
         iconUrl: 'https://image.flaticon.com/icons/png/512/1493/1493743.png',
@@ -86,7 +86,7 @@ export default {
         shadowSize:   [50, 64],
         iconAnchor:   [18, 18],
         shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76]
+        popupAnchor:  [0, -25]
       }),
       hereIcon: L.icon({
         iconUrl: 'https://image.flaticon.com/icons/png/512/1493/1493766.png',
@@ -94,7 +94,7 @@ export default {
         shadowSize:   [50, 64],
         iconAnchor:   [28, 22],
         shadowAnchor: [4, 62],
-        popupAnchor:  [-3, -76]
+        popupAnchor:  [0, -25]
       }),
       pompes: null,
       bicloos: null,
@@ -214,7 +214,7 @@ export default {
     padding:6px 3px 6px 3px;
     font:bold 14px Arial;
     background:rgb(253, 154, 2);
-    color:#fff;
+    color:#222;
     border-radius:12px;
     width:100px;
     border:none;
