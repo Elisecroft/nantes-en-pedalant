@@ -12,10 +12,10 @@
         <li>Passez de bonnes fêtes de fin d'années !</li>
       </ul>
       <h3>Liens utiles</h3>
-      <a href="https://www.nantes.fr/eau">Points d'eau</a>
-      <a href="https://www.bicloo.nantesmetropole.fr/home">Bicloos</a>
-      <a href="https://data.nantesmetropole.fr/pages/home/">Données utilisée</a>
-      <a href="https://github.com/Elisecroft/nantes-en-pedalant">Lien GitHub</a>
+      <a href="https://www.nantes.fr/eau" target="_blank">Points d'eau</a>
+      <a href="https://www.bicloo.nantesmetropole.fr/home" target="_blank">Bicloos</a>
+      <a href="https://data.nantesmetropole.fr/pages/home/" target="_blank">Données utilisée</a>
+      <a href="https://github.com/Elisecroft/nantes-en-pedalant" target="_blank">Lien GitHub</a>
     </div>
   </div>
 </template>
