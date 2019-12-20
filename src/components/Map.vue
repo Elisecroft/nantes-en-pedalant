@@ -10,7 +10,7 @@
     >
       <LTileLayer :url="url"></LTileLayer>
       <LMarker v-if="filtres[0].display" v-for="pompe in pompes":lat-lng="pompe.fields.location" :icon="pompesIcon">
-        <LPopup :content="pompe.fields.descriptif"></LPopup>
+        <LPopup :content="'Pompes à velo'"></LPopup>
       </LMarker>
       <LMarker v-if="filtres[1].display && bicloo.fields.available_bikes > 0" v-for="bicloo in bicloos":lat-lng="bicloo.fields.position" :icon="biclooIcon">
         <LPopup :content="'Vélos disponibles : ' + bicloo.fields.available_bikes.toString()"></LPopup>
@@ -58,7 +58,7 @@ export default {
         iconUrl: 'https://image.flaticon.com/icons/png/512/1493/1493719.png',
         iconSize:     [35, 45],
         shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
+        iconAnchor:   [18, 22],
         shadowAnchor: [4, 62],
         popupAnchor:  [-3, -76]
       }),
@@ -66,7 +66,7 @@ export default {
         iconUrl: 'https://image.flaticon.com/icons/png/512/1493/1493724.png',
         iconSize:     [45, 40],
         shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
+        iconAnchor:   [22, 20],
         shadowAnchor: [4, 62],
         popupAnchor:  [-3, -76]
       }),
@@ -74,12 +74,13 @@ export default {
         iconUrl: 'https://image.flaticon.com/icons/png/512/1493/1493766.png',
         iconSize:     [55, 45],
         shadowSize:   [50, 64],
-        iconAnchor:   [22, 94],
+        iconAnchor:   [28, 22],
         shadowAnchor: [4, 62],
         popupAnchor:  [-3, -76]
       }),
       pompes: null,
       bicloos: null,
+      velocistes: null,
       filtres: [{
         ctg: "pompes",
         display: true,
@@ -119,12 +120,12 @@ export default {
     }
 
     const getActualBikes = () => {
-        const dataBicloo = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_stations-velos-libre-service-nantes-metropole-disponibilites&rows=123";
-        axios
-          .get(dataBicloo)
-          .then(res => {
-            this.bicloos = res.data.records;
-          })
+      const dataBicloo = "https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_stations-velos-libre-service-nantes-metropole-disponibilites&rows=123";
+      axios
+        .get(dataBicloo)
+        .then(res => {
+          this.bicloos = res.data.records;
+        })
     }
     getActualPompes();
     getActualBikes();
@@ -147,7 +148,6 @@ export default {
         };
       }
       this.filtres[filtre].display = !this.filtres[filtre].display;
-      console.log(this.location)
     },
   },
   name: "Map",
